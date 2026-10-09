@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <clipPath id="tile"><rect width="512" height="512" rx="87" ry="87"/></clipPath>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="512" height="512" fill="#14181f"/>
+    <rect y="369" width="512" height="143" fill="#8c6336"/>
+    <rect y="369" width="512" height="27" fill="#b5844c"/>
+    <g fill="#d6ba8c" opacity="0.38">
+      <circle cx="94" cy="345" r="34"/>
+      <circle cx="139" cy="329" r="24"/>
+      <circle cx="63" cy="337" r="21"/>
+    </g>
+    <rect x="121" y="266" width="288" height="63" rx="14" fill="#aa2822"/>
+    <rect x="130" y="212" width="270" height="81" rx="25" fill="#e43e36"/>
+    <rect x="220" y="153" width="126" height="68" rx="20" fill="#e43e36"/>
+    <rect x="238" y="169" width="92" height="41" rx="13" fill="#24344a"/>
+    <rect x="211" y="130" width="149" height="19" rx="8" fill="#ffc83d"/>
+    <rect x="139" y="246" width="252" height="17" fill="#ffc83d"/>
+    <g>
+      <circle cx="177" cy="337" r="66" fill="#17181c"/>
+      <circle cx="177" cy="337" r="33" fill="#d2d8de"/>
+      <circle cx="177" cy="337" r="15" fill="#17181c"/>
+      <circle cx="355" cy="337" r="66" fill="#17181c"/>
+      <circle cx="355" cy="337" r="33" fill="#d2d8de"/>
+      <circle cx="355" cy="337" r="15" fill="#17181c"/>
+    </g>
+  </g>
+</svg>
