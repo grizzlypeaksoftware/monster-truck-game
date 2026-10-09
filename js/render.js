@@ -104,7 +104,10 @@ export function bakeTrack(track) {
   const keepOut = track.width * 0.5 + BERM + 26;
   let tries = 0;
   let placed = 0;
-  const wantScenery = pal.scenery === "lamp" ? 26 : 70;
+  // Scale with the canvas so density stays constant whatever shape the track
+  // was built for.
+  const areaRatio = (b.w * b.h) / (1560 * 980);
+  const wantScenery = Math.round((pal.scenery === "lamp" ? 26 : 70) * areaRatio);
   while (placed < wantScenery && tries < 1600) {
     tries++;
     const x = b.x + rng() * b.w;

@@ -325,12 +325,28 @@ export function buildTrack(def, aspect = 1.6) {
     maxY = Math.max(maxY, p.y);
   }
   const pad = width * 0.6 + 30;
-  track.bounds = {
+  const bounds = {
     x: minX - pad,
     y: minY - pad,
     w: maxX - minX + pad * 2,
     h: maxY - minY + pad * 2,
   };
+
+  // The shape was fitted to the screen's proportions, but padding the same
+  // amount on every side pulls the bounding box back towards square. Grow
+  // whichever axis is short so the baked image matches the screen and the
+  // track isn't drawn inside letterbox bands.
+  const want = clamp(aspect, 0.7, 2.7);
+  if (bounds.w / bounds.h < want) {
+    const w = bounds.h * want;
+    bounds.x -= (w - bounds.w) / 2;
+    bounds.w = w;
+  } else {
+    const h = bounds.w / want;
+    bounds.y -= (h - bounds.h) / 2;
+    bounds.h = h;
+  }
+  track.bounds = bounds;
   return track;
 }
 
