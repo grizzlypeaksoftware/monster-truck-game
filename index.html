@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Monster Truck Game</title>
+<meta name="description" content="Top-down offroad monster truck racing with 30 tracks, upgrades and nitro. Plays offline on your phone.">
+<meta name="theme-color" content="#14181f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Monster Truck">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="stylesheet" href="./vendor/bootstrap.min.css">
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body data-screen="menu">
+
+<div id="boot-loader">Loading&hellip;</div>
+
+<!-- ===================== MENU ===================== -->
+<section id="screen-menu" class="screen active">
+  <div class="menu-wrap">
+    <div class="title-block">
+      <h1 class="game-title">MONSTER<span>TRUCK</span></h1>
+      <p class="tagline">30 dirt tracks. Four trucks. One nitro bottle short.</p>
+    </div>
+    <div class="menu-buttons">
+      <button class="btn btn-warning btn-lg fw-bold menu-btn" id="btn-quick-race">RACE</button>
+      <button class="btn btn-outline-light btn-lg fw-bold menu-btn" data-go="levels">CHOOSE TRACK</button>
+      <button class="btn btn-outline-light btn-lg fw-bold menu-btn" data-go="garage">GARAGE</button>
+      <button class="btn btn-outline-secondary menu-btn" data-go="settings">SETTINGS</button>
+    </div>
+    <p class="hint">
+      Steer with the on-screen arrows, tap <strong>NITRO</strong> for a boost.
+      On a keyboard use the arrow keys and space.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== LEVEL SELECT ===================== -->
+<section id="screen-levels" class="screen">
+  <header class="topbar">
+    <button class="btn btn-sm btn-outline-light" data-go="menu">&lsaquo; Menu</button>
+    <h2>Choose a track</h2>
+    <button class="btn btn-sm btn-outline-warning" data-go="garage">Garage</button>
+  </header>
+  <div class="scroll-area">
+    <div id="level-list" class="container-fluid py-3"></div>
+  </div>
+</section>
+
+<!-- ===================== GARAGE ===================== -->
+<section id="screen-garage" class="screen">
+  <header class="topbar">
+    <button class="btn btn-sm btn-outline-light" data-go="menu">&lsaquo; Menu</button>
+    <h2>Garage</h2>
+    <span class="money" id="garage-money">$0</span>
+  </header>
+  <div class="scroll-area">
+    <div class="container-fluid py-3">
+      <div class="row g-3" id="upgrade-list"></div>
+
+      <h3 class="section-title mt-4">Paint</h3>
+      <div id="color-picker" class="d-flex flex-wrap gap-2"></div>
+
+      <p class="text-secondary small mt-4 mb-0">
+        Prize money depends on where you finish. Win races, buy parts, climb the cups.
+      </p>
+      <button class="btn btn-warning fw-bold mt-3 mb-2" data-go="levels">TO THE TRACKS</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SETTINGS ===================== -->
+<section id="screen-settings" class="screen">
+  <header class="topbar">
+    <button class="btn btn-sm btn-outline-light" data-go="menu">&lsaquo; Menu</button>
+    <h2>Settings</h2>
+    <span></span>
+  </header>
+  <div class="scroll-area">
+    <div class="container-fluid py-3" style="max-width:620px">
+      <div class="setting-row form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="set-sound">
+        <label class="form-check-label" for="set-sound">Sound</label>
+      </div>
+      <div class="setting-row form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="set-autogas">
+        <label class="form-check-label" for="set-autogas">
+          Auto accelerate
+          <small class="d-block text-secondary">Leaves you only steering, braking and nitro.</small>
+        </label>
+      </div>
+      <div class="setting-row form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="set-tilt">
+        <label class="form-check-label" for="set-tilt">
+          Tilt steering
+          <small class="d-block text-secondary" id="tilt-note"></small>
+        </label>
+      </div>
+
+      <h3 class="section-title mt-4">Camera</h3>
+      <div class="btn-group w-100" role="group">
+        <input type="radio" class="btn-check" name="camera" id="cam-fit" value="fit">
+        <label class="btn btn-outline-light" for="cam-fit">Whole track</label>
+        <input type="radio" class="btn-check" name="camera" id="cam-follow" value="follow">
+        <label class="btn btn-outline-light" for="cam-follow">Zoomed in</label>
+      </div>
+      <p class="text-secondary small mt-2">
+        &ldquo;Whole track&rdquo; is the original arcade view &mdash; you can see every truck at once.
+      </p>
+
+      <h3 class="section-title mt-4">Career</h3>
+      <div class="stats-grid">
+        <div><span id="stat-races">0</span><small>races run</small></div>
+        <div><span id="stat-wins">0</span><small>wins</small></div>
+        <div><span id="stat-unlocked">1/30</span><small>unlocked</small></div>
+      </div>
+      <button class="btn btn-outline-danger btn-sm mt-3" id="btn-reset">Reset progress</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RACE ===================== -->
+<section id="screen-race" class="screen">
+  <canvas id="game-canvas"></canvas>
+
+  <div class="hud">
+    <div class="hud-top">
+      <div class="hud-chip"><small>POS</small><span id="hud-place">1st</span></div>
+      <div class="hud-chip"><small>LAP</small><span id="hud-lap">1/3</span></div>
+      <div class="hud-chip"><small>TIME</small><span id="hud-time">0:00.00</span></div>
+      <div class="hud-chip d-none d-sm-flex"><small>BEST LAP</small><span id="hud-best">--:--.--</span></div>
+      <div class="hud-chip"><small>MPH</small><span id="hud-speed">0</span></div>
+      <button class="btn btn-sm btn-dark hud-pause" id="btn-pause" aria-label="Pause">II</button>
+    </div>
+    <p class="race-name" id="race-title"></p>
+
+    <div class="controls">
+      <div class="pad-left">
+        <button class="pad-btn" id="left-btn" aria-label="Steer left">&#9664;</button>
+        <button class="pad-btn" id="right-btn" aria-label="Steer right">&#9654;</button>
+      </div>
+      <div class="pad-right">
+        <button class="pad-btn small" id="brake-btn" aria-label="Brake">BRAKE</button>
+        <button class="pad-btn small d-none" id="gas-btn" aria-label="Accelerate">GAS</button>
+        <button class="pad-btn nitro" id="nitro-btn" aria-label="Nitro">
+          <span class="nitro-label">NITRO</span>
+          <span class="nitro-count" id="hud-nitro">2</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="pause-overlay" class="overlay d-none">
+    <div class="overlay-card">
+      <h2>Paused</h2>
+      <button class="btn btn-warning fw-bold w-100 mb-2" id="btn-resume">RESUME</button>
+      <button class="btn btn-outline-light w-100 mb-2" id="btn-restart">RESTART RACE</button>
+      <button class="btn btn-outline-secondary w-100" id="btn-quit">QUIT TO TRACKS</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RESULTS ===================== -->
+<section id="screen-results" class="screen">
+  <div class="scroll-area">
+    <div class="results-wrap">
+      <p class="results-track" id="result-track"></p>
+      <div class="result-place p1" id="result-place">1st</div>
+      <h2 class="result-headline" id="result-headline">WINNER!</h2>
+      <p class="result-unlock badge text-bg-success d-none" id="result-unlock"></p>
+
+      <div class="result-figures">
+        <div><small>PRIZE</small><span id="result-payout">+$0</span></div>
+        <div><small>BANK</small><span id="result-money">$0</span></div>
+        <div><small>TOTAL</small><span id="result-time">0:00.00</span></div>
+        <div><small>BEST LAP</small><span id="result-bestlap">--:--.--</span></div>
+      </div>
+
+      <table class="table table-dark table-sm standings">
+        <tbody id="result-standings"></tbody>
+      </table>
+
+      <div class="d-grid gap-2">
+        <button class="btn btn-warning btn-lg fw-bold d-none" id="btn-next-race">NEXT RACE</button>
+        <button class="btn btn-outline-light fw-bold" id="btn-retry">RACE AGAIN</button>
+        <button class="btn btn-outline-warning fw-bold" data-go="garage">SPEND WINNINGS</button>
+        <button class="btn btn-outline-secondary" data-go="levels">ALL TRACKS</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="rotate-hint">
+  <div>
+    <div class="rotate-icon">&#128241;</div>
+    <p>Turn your phone sideways for the full track view.</p>
+  </div>
+</div>
+
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
