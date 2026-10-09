@@ -1,5 +1,7 @@
 # Monster Truck Game
 
+### ▶ [Play it](https://grizzlypeaksoftware.github.io/monster-truck-game/)
+
 A top-down offroad racer in the spirit of the arcade cabinets that used to sit
 by the door at Pizza Hut — four trucks, one dirt track on screen at a time,
 jumps, nitro, and a garage full of parts you buy with your winnings.
@@ -18,9 +20,12 @@ Built to be played on a phone, offline, with your thumbs.
 
 ## Playing it
 
-**On a phone.** Open the page, then add it to your home screen
+**https://grizzlypeaksoftware.github.io/monster-truck-game/**
+
+**On a phone.** Open that link, then add it to your home screen
 (Share → *Add to Home Screen* on iOS, ⋮ → *Install app* on Android). It then
-launches fullscreen like an app and works with the wifi off.
+launches fullscreen like an app and works with the wifi off — load it once
+before you take off and it keeps running at altitude.
 
 Hold the phone sideways. Arrows on the left steer, **NITRO** on the right is
 your boost, **BRAKE** slows you down. The truck accelerates on its own unless
@@ -49,9 +54,15 @@ python3 -m http.server 8000
 # then open http://localhost:8000
 ```
 
-Any static host works for deploying it — GitHub Pages, Netlify, an S3 bucket.
-Serve the repository root as-is. A service worker precaches everything on
-first load, so it needs HTTPS (or localhost) for the offline behaviour.
+## Deploying
+
+This repository is published with GitHub Pages at
+[grizzlypeaksoftware.github.io/monster-truck-game](https://grizzlypeaksoftware.github.io/monster-truck-game/),
+served from the repository root with no build step.
+
+Any other static host works the same way — Netlify, an S3 bucket, anything
+that serves the root as-is. A service worker precaches everything on first
+load, so it needs HTTPS (or localhost) for the offline behaviour.
 
 ## How it's put together
 
