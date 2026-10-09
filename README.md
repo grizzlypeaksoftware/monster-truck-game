@@ -2,6 +2,8 @@
 
 ### ▶ [Play it](https://grizzlypeaksoftware.github.io/monster-truck-game/)
 
+![Four monster trucks racing a winding desert track seen from above, the leading red truck trailing a blue nitro flame, with lap and speed read-outs along the top](screenshots/race-desert.png)
+
 A top-down offroad racer in the spirit of the arcade cabinets that used to sit
 by the door at Pizza Hut — four trucks, one dirt track on screen at a time,
 jumps, nitro, and a garage full of parts you buy with your winnings.
@@ -17,6 +19,15 @@ Built to be played on a phone, offline, with your thumbs.
 - **Works offline.** Open it once with a connection and it keeps running with
   no signal, which is the whole point if you're on a plane.
 - No build step, no dependencies to install, no tracking, no accounts.
+
+## Screenshots
+
+| | |
+| --- | --- |
+| ![A figure-eight dirt track through green marshland, trucks crossing at the junction](screenshots/race-mud.png)<br>**Mudslinger.** Figure-eight tracks let the field cross over itself — and the dark patches are mud that grabs your wheels. | ![The same game at night, the track lit by floodlights with pools of amber light over the infield](screenshots/race-night.png)<br>**Neon Nitro.** The night cup runs under floodlights, with the ground falling away into the dark between the lamps. |
+| ![A snowy track with pine trees, all four trucks strung out along the top straight](screenshots/race-snow.png)<br>**Icebreaker.** Blue chevrons mark the ramps. Hit one fast and you leave the ground. | ![The garage screen showing engine, tires, shocks and nitro upgrade cards with progress pips, and a row of paint colours](screenshots/garage.png)<br>**The garage.** Four parts, five levels each, paid for out of prize money. |
+
+![The track select screen, showing the Dust Bowl cup with medals and best lap times on finished tracks](screenshots/levels.png)
 
 ## Playing it
 
